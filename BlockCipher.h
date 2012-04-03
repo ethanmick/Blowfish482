@@ -2,21 +2,22 @@
 // BlockCipher.h
 ///
 
-public class BlockCipher {
+class BlockCipher {
 
+public:
 	///
 	/// Returns this block cipher's block size in bytes
 	///
 	/// @return  Block Size
 	///
-	public virtual int blockSize();
+    virtual int blockSize() = 0;
 
 	/// 
 	/// Returns this block cipher's key size in bytes
 	///
 	/// @return  Key Size
 	///
-	public virtual int keySize();
+	virtual int keySize() = 0;
 
 	///
 	/// Set the key for this block cipher.  key must be an array
@@ -24,7 +25,7 @@ public class BlockCipher {
 	///
 	/// @param  key Key
 	///
-	public virtual void setKey(unsigned char* key);
+	virtual void setKey(unsigned char* key) = 0;
 
 	///
 	/// Encrypt the given plaintext.  text must be an array of 
@@ -35,6 +36,6 @@ public class BlockCipher {
 	/// 
 	/// @param  text Plaintext (on input), ciphertext (on output)
 	///
-	public virtual void encrypt(unsigned char* text);
+	virtual void encrypt(unsigned char* text) = 0;
 
 };
