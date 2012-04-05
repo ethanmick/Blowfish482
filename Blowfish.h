@@ -26,7 +26,7 @@ private:
 	///
 	/// @return  An unsigned char array consisting 8 hex digits of Pi
 	///
-	unsigned char* computeHexPi();
+	unsigned int computeHexPi();
 
     /// 
     /// Compute the series expansion for the values of pi
@@ -44,7 +44,7 @@ private:
 	///
 	/// @param  b 	The number to compute
 	/// @param  n 	The power to compute to
-    /// @param  mod The modulus to use
+	/// @param  mod The modulus to use
 	///
 	/// @return  The compute value of b^n mod k
 	///

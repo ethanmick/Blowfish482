@@ -23,11 +23,11 @@ int Blowfish::keySize(){
 }
 
 void Blowfish::setKey(unsigned char* key){
-    unsigned char** pArray = new unsigned char*[18];
-    unsigned char* s1 = new unsigned char[256];
-    unsigned char* s2 = new unsigned char[256];
-    unsigned char* s3 = new unsigned char[256];
-    unsigned char* s4 = new unsigned char[256];
+    unsigned int* pArray = new unsigned int[18];
+    unsigned int s1 = 0;
+    unsigned int s2 = 0;
+    unsigned int s3 = 0;
+    unsigned int s4 = 0;
 
     for (int i = 0; i < 18; i++) {
         pArray[i] = computeHexPi();
@@ -40,7 +40,7 @@ void Blowfish::encrypt(unsigned char* text){
     
 }
 
-unsigned char* Blowfish::computeHexPi() {
+unsigned int Blowfish::computeHexPi() {
 
     double s1 = series(hexStart, 1);
     double s2 = series(hexStart, 4);
@@ -50,22 +50,14 @@ unsigned char* Blowfish::computeHexPi() {
     double pi = (4.0 * s1) - (2.0 * s2) - s3 - s4;
     pi = pi - (int)pi + 1.0;
 
-    unsigned char* pihex = new unsigned char[4];
-  
-  
-    // Add two hex digits to each char 
-    for (int i=0; i < 4; i++) { 
-        pi *= 16;
-        unsigned int hVal = floor(pi);
-        unsigned int byte = hVal;
-        byte <<= 4;
-        pi -= hVal;
-        pi *= 16;
-        hVal = floor(pi);
-        byte |= hVal;
-        pi -= hVal;        
+    unsigned int pihex= 0;
 
-        pihex[i] = byte;
+    for (int i=0; i < 8; i++) {
+	pi *= 16;
+	unsigned int hVal = floor(pi);
+	pihex <<= 4;
+	pihex |= hVal;
+	pi -= hVal;
     }
 
     hexStart += 8;
