@@ -1,3 +1,5 @@
+#ifndef BLOWFISH_H
+#define BLOWFISH_H
 #include "BlockCipher.h"
 
 class Blowfish : public BlockCipher {
@@ -6,21 +8,21 @@ public:
     
     Blowfish();
 
-	virtual int blockSize();
+	virtual uint32_t blockSize();
     
-	virtual int keySize();
+	virtual uint32_t keySize();
     
-	virtual void setKey(unsigned char* key);
+	virtual void setKey(uint8_t* key);
     
-	virtual void encrypt(unsigned char* text);
+	virtual void encrypt(uint8_t* text);
 
 private:
 
     /// The starting location for generating the hex values
     int hexStart;
 
-    unsigned int *s1, *s2, *s3, *s4;
-    unsigned int pArray[ 18 ];
+    uint32_t s1[256], s2[265], s3[256], s4[256];
+    uint32_t pArray[ 18 ];
     
 	///
 	/// Compute the next 8 hexadecimal digits of Pi
@@ -29,7 +31,7 @@ private:
 	///
 	/// @return  An unsigned char array consisting 8 hex digits of Pi
 	///
-	unsigned int computeHexPi();
+	uint32_t computeHexPi();
 
     /// 
     /// Compute the series expansion for the values of pi
@@ -39,7 +41,7 @@ private:
     ///
     /// @return  The remainder of the series computation used to get the hex value of pi
     ///
-    double series(int d, int j); 
+    double series(uint32_t d, uint32_t j); 
 
 	///
 	/// Compute b^n mod k using binary exponentiation modulo k
@@ -60,7 +62,7 @@ private:
     ///
     /// @param input    The char array to convert
     /// @return An unsigned int representing this char array
-    unsigned int charArrayToInt( unsigned char* input );
+    uint32_t charArrayToInt( uint8_t* input );
     
     
     ///
@@ -68,6 +70,7 @@ private:
     ///
     /// @param input    The input to apply the F function to
     /// @return The result of the F function
-    unsigned int F( unsigned int input );
+    uint32_t F( uint32_t input );
     
 };
+#endif
