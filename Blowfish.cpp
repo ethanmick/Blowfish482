@@ -27,13 +27,38 @@ int Blowfish::keySize(){
 }
 
 void Blowfish::setKey(unsigned char* key){
-    s1 = 0;
-    s2 = 0;
-    s3 = 0;
-    s4 = 0;
+	unsigned int* pArray = new unsigned int[18];
+    s1 = new unsigned int[256];
+    s2 = new unsigned int[256];
+    s3 = new unsigned int[256];
+    s4 = new unsigned int[256];
 
     for (int i = 0; i < 18; i++) {
         pArray[i] = computeHexPi();
+    }
+    
+    for (int i=0; i < 256; i++) {
+    	s1[i] = computeHexPi();
+    }
+    
+    for (int i=0; i < 256; i++) {
+    	s2[i] = computeHexPi();
+    }
+    
+    for (int i=0; i < 256; i++) {
+    	s3[i] = computeHexPi();
+    }
+    
+    for (int i=0; i < 256; i++) {
+    	s4[i] = computeHexPi();
+    }
+    
+    int key_size = keySize();
+    
+    int subkey = 0;
+    for (int i=0; i < 4; i++) {
+    	subkey <<= 8;
+    	subkey |= (int)key[i];
     }
 
 }
@@ -95,7 +120,7 @@ unsigned int Blowfish::F( unsigned int input ){
     //We gotta do this...
     //find s1,a s2,b s3,c s4,d
 
-    return ( ( s1 + s2 ) ^ s3 ) + s4;
+    return ( ( *s1 + *s2 ) ^ *s3 ) + *s4;
     
     
 }

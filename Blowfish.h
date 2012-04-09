@@ -19,7 +19,7 @@ private:
     /// The starting location for generating the hex values
     int hexStart;
 
-    unsigned int s1, s2, s3, s4;
+    unsigned int *s1, *s2, *s3, *s4;
     unsigned int pArray[ 18 ];
     
 	///
