@@ -53,7 +53,7 @@ void Blowfish::encrypt(unsigned char* text){
     xR = charArrayToInt( xRChar );
     
     for( int i = 1; i <= 16; i++ ){
-        xL ^= computeHexPi();
+        xL ^= pArray[ i ];
         xR ^= F( xL );
         
         temp = xL;
@@ -83,7 +83,6 @@ unsigned int Blowfish::F( unsigned int input ){
     unsigned char a, b, c, d;
     
     d = (unsigned char) input;
-    cout << "d: " << (int) d << endl;
     input >> 8;
     c = (unsigned char) input;
     input >> 8;
