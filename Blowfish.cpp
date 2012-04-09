@@ -38,6 +38,15 @@ void Blowfish::setKey(unsigned char* key){
 void Blowfish::encrypt(unsigned char* text){
     
     
+    
+    for( int i = 1; i <=16; i++ ){
+        
+        
+        
+    }
+    
+    
+    
 }
 
 unsigned int Blowfish::computeHexPi() {
