@@ -6,8 +6,11 @@ using namespace std;
 
 int main( int argc, char* argv[] ){
     Blowfish b;
-    unsigned char* a = new unsigned char[10];
-    b.setKey(a);
+
+    b.setKey( ( unsigned char * ) "0123456789abcdef" );
+    
+    
+    b.encrypt( (unsigned char * ) "01234567" );
 }
 
 Blowfish::Blowfish() {
@@ -20,15 +23,14 @@ int Blowfish::blockSize(){
 
 int Blowfish::keySize(){
     //56 is the maximum, this is variable
-    return 56;
+    return 16;
 }
 
 void Blowfish::setKey(unsigned char* key){
-    unsigned int* pArray = new unsigned int[18];
-    unsigned int s1 = 0;
-    unsigned int s2 = 0;
-    unsigned int s3 = 0;
-    unsigned int s4 = 0;
+    s1 = 0;
+    s2 = 0;
+    s3 = 0;
+    s4 = 0;
 
     for (int i = 0; i < 18; i++) {
         pArray[i] = computeHexPi();
@@ -37,17 +39,79 @@ void Blowfish::setKey(unsigned char* key){
 }
 
 void Blowfish::encrypt(unsigned char* text){
-    
-    
-    
-    for( int i = 1; i <=16; i++ ){
         
+    cout << "text: " << text << endl;
+    unsigned char xLChar[ blockSize()/2 + 1 ];
+    unsigned char xRChar[ blockSize()/2 + 1 ];
+    memcpy( &xLChar, text, blockSize()/2 );
+    xLChar[ blockSize()/2 ] = '\0';
+    memcpy( &xRChar, text + blockSize()/2, blockSize()/2 );
+    xRChar[ blockSize()/2 ] = '\0';
+
+    unsigned int xL, xR, temp;
+    xL = charArrayToInt( xLChar );
+    xR = charArrayToInt( xRChar );
+    
+    for( int i = 1; i <= 16; i++ ){
+        xL ^= computeHexPi();
+        xR ^= F( xL );
         
-        
+        temp = xL;
+        xL = xR;
+        xR = temp;
     }
     
+    temp = xL;
+    xL = xR;
+    xR = temp;
+    
+    xR ^= pArray[ 16 ];
+    xL ^= pArray[ 17 ];
+    
+    //merge into xR and xL into xL
+    xL = xL << 16;
+    xL += xR;
+    
+    //now xL is the ciphertext
+    
+    cout << xL;
     
     
+}
+
+unsigned int Blowfish::F( unsigned int input ){
+    unsigned char a, b, c, d;
+    
+    d = (unsigned char) input;
+    cout << "d: " << (int) d << endl;
+    input >> 8;
+    c = (unsigned char) input;
+    input >> 8;
+    b = (unsigned char) input;
+    input >> 8;
+    a = (unsigned char) input;
+    
+    //The s boxes really accept 8 bit input, and produce 32 bit output... i think.
+    //We gotta do this...
+    //find s1,a s2,b s3,c s4,d
+
+    return ( ( s1 + s2 ) ^ s3 ) + s4;
+    
+    
+}
+
+unsigned int Blowfish::charArrayToInt( unsigned char* input ){
+    if( strlen( ( char * ) input ) == 4 ){
+        unsigned int result = 0;
+        for( int i = 0; i < 4; i++ ){
+            result = result << 8;
+            result += input[ i ];
+
+        }
+        return result;
+    }else{
+        return 0;
+    }
 }
 
 unsigned int Blowfish::computeHexPi() {

@@ -19,6 +19,9 @@ private:
     /// The starting location for generating the hex values
     int hexStart;
 
+    unsigned int s1, s2, s3, s4;
+    unsigned int pArray[ 18 ];
+    
 	///
 	/// Compute the next 8 hexadecimal digits of Pi
 	/// Necessary for the creation of the S-boxes and P-values in the 
@@ -49,4 +52,22 @@ private:
 	/// @return  The compute value of b^n mod k
 	///
 	double binaryExp(int b, int n, double mod);
+    
+    
+    
+    ///
+    /// Computes an integer based on a given char*
+    ///
+    /// @param input    The char array to convert
+    /// @return An unsigned int representing this char array
+    unsigned int charArrayToInt( unsigned char* input );
+    
+    
+    ///
+    /// Computes the F function for Blowfish
+    ///
+    /// @param input    The input to apply the F function to
+    /// @return The result of the F function
+    unsigned int F( unsigned int input );
+    
 };
