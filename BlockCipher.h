@@ -1,6 +1,10 @@
 ///
 // BlockCipher.h
 ///
+#ifndef BLOCK_CIPHER_H
+#define BLOCK_CIPHER_H
+
+#include <stdint.h>
 
 class BlockCipher {
 
@@ -10,14 +14,14 @@ public:
 	///
 	/// @return  Block Size
 	///
-    virtual int blockSize() = 0;
+    virtual uint32_t blockSize() = 0;
 
 	/// 
 	/// Returns this block cipher's key size in bytes
 	///
 	/// @return  Key Size
 	///
-	virtual int keySize() = 0;
+	virtual uint32_t keySize() = 0;
 
 	///
 	/// Set the key for this block cipher.  key must be an array
@@ -25,7 +29,7 @@ public:
 	///
 	/// @param  key Key
 	///
-	virtual void setKey(unsigned char* key) = 0;
+	virtual void setKey(uint8_t* key) = 0;
 
 	///
 	/// Encrypt the given plaintext.  text must be an array of 
@@ -36,6 +40,8 @@ public:
 	/// 
 	/// @param  text Plaintext (on input), ciphertext (on output)
 	///
-	virtual void encrypt(unsigned char* text) = 0;
+	virtual void encrypt(uint8_t* text) = 0;
 
 };
+#endif
+

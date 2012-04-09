@@ -1,54 +1,76 @@
 #include "Blowfish.h"
 #include <iostream>
 #include <cmath>
+#include <cstring>
 
 using namespace std;
 
 int main( int argc, char* argv[] ){
     Blowfish b;
 
-    b.setKey( ( unsigned char * ) "0123456789abcdef" );
+    b.setKey( ( uint8_t * ) "0123456789abcdef" );
     
     
-    b.encrypt( (unsigned char * ) "01234567" );
+    b.encrypt( (uint8_t * ) "01234567" );
 }
 
 Blowfish::Blowfish() {
     hexStart = 0;
+
 }
 
-int Blowfish::blockSize(){
+uint32_t Blowfish::blockSize(){
     return 8;
 }
 
-int Blowfish::keySize(){
+uint32_t Blowfish::keySize(){
     //56 is the maximum, this is variable
     return 16;
 }
 
-void Blowfish::setKey(unsigned char* key){
-    s1 = 0;
-    s2 = 0;
-    s3 = 0;
-    s4 = 0;
-
+void Blowfish::setKey(uint8_t* key){
+    
     for (int i = 0; i < 18; i++) {
         pArray[i] = computeHexPi();
+    }
+    
+    for (int i=0; i < 256; i++) {
+    	s1[i] = computeHexPi();
+    }
+    
+    for (int i=0; i < 256; i++) {
+    	s2[i] = computeHexPi();
+    }
+    
+    for (int i=0; i < 256; i++) {
+    	s3[i] = computeHexPi();
+    }
+    
+    for (int i=0; i < 256; i++) {
+    	s4[i] = computeHexPi();
+    }
+
+    uint32_t key_size = keySize();
+    
+    uint32_t subkey = 0;
+    for (int i=0; i < 4; i++) {
+    	subkey <<= 8;
+    	subkey |= (uint32_t)key[i];
     }
 
 }
 
-void Blowfish::encrypt(unsigned char* text){
+void Blowfish::encrypt(uint8_t* text){
         
     cout << "text: " << text << endl;
-    unsigned char xLChar[ blockSize()/2 + 1 ];
-    unsigned char xRChar[ blockSize()/2 + 1 ];
+    uint8_t xLChar[ blockSize()/2 + 1 ];
+    uint8_t xRChar[ blockSize()/2 + 1 ];
     memcpy( &xLChar, text, blockSize()/2 );
     xLChar[ blockSize()/2 ] = '\0';
     memcpy( &xRChar, text + blockSize()/2, blockSize()/2 );
     xRChar[ blockSize()/2 ] = '\0';
 
-    unsigned int xL, xR, temp;
+    uint32_t xL, xR, temp;
     xL = charArrayToInt( xLChar );
     xR = charArrayToInt( xRChar );
     
@@ -79,29 +101,29 @@ void Blowfish::encrypt(unsigned char* text){
     
 }
 
-unsigned int Blowfish::F( unsigned int input ){
-    unsigned char a, b, c, d;
+uint32_t Blowfish::F( uint32_t input ){
+    uint8_t a, b, c, d;
     
-    d = (unsigned char) input;
+    d = (uint8_t) input;
     input >> 8;
-    c = (unsigned char) input;
+    c = (uint8_t) input;
     input >> 8;
-    b = (unsigned char) input;
+    b = (uint8_t) input;
     input >> 8;
-    a = (unsigned char) input;
+    a = (uint8_t) input;
     
     //The s boxes really accept 8 bit input, and produce 32 bit output... i think.
     //We gotta do this...
     //find s1,a s2,b s3,c s4,d
 
-    return ( ( s1 + s2 ) ^ s3 ) + s4;
+    return ( ( *s1 + *s2 ) ^ *s3 ) + *s4;
     
     
 }
 
-unsigned int Blowfish::charArrayToInt( unsigned char* input ){
+uint32_t Blowfish::charArrayToInt( uint8_t* input ){
     if( strlen( ( char * ) input ) == 4 ){
-        unsigned int result = 0;
+        uint32_t result = 0;
         for( int i = 0; i < 4; i++ ){
             result = result << 8;
             result += input[ i ];
@@ -113,7 +135,7 @@ unsigned int Blowfish::charArrayToInt( unsigned char* input ){
     }
 }
 
-unsigned int Blowfish::computeHexPi() {
+uint32_t Blowfish::computeHexPi() {
 
     double s1 = series(hexStart, 1);
     double s2 = series(hexStart, 4);
@@ -123,11 +145,11 @@ unsigned int Blowfish::computeHexPi() {
     double pi = (4.0 * s1) - (2.0 * s2) - s3 - s4;
     pi = pi - (int)pi + 1.0;
 
-    unsigned int pihex= 0;
+    uint32_t pihex= 0;
 
     for (int i=0; i < 8; i++) {
 	pi *= 16;
-	unsigned int hVal = floor(pi);
+	uint32_t hVal = floor(pi);
 	pihex <<= 4;
 	pihex |= hVal;
 	pi -= hVal;
@@ -139,7 +161,7 @@ unsigned int Blowfish::computeHexPi() {
 
 }
 
-double Blowfish::series(int d, int j) {
+double Blowfish::series(uint32_t d, uint32_t j) {
 
     double sum = 0;
     for (int k=0; k < d; k++) {
