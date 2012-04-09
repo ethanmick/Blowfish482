@@ -21,7 +21,7 @@ private:
     /// The starting location for generating the hex values
     int hexStart;
 
-    uint32_t s1[256], s2[265], s3[256], s4[256];
+    uint32_t s1[256], s2[256], s3[256], s4[256];
     uint32_t pArray[ 18 ];
     
 	///

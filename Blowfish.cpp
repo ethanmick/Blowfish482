@@ -116,7 +116,7 @@ uint32_t Blowfish::F( uint32_t input ){
     //We gotta do this...
     //find s1,a s2,b s3,c s4,d
 
-    return ( ( *s1 + *s2 ) ^ *s3 ) + *s4;
+    return ( ( s1[ a ] + s2[ b ] ) ^ s3[ c ] ) + s4[ d ];
     
     
 }
@@ -170,7 +170,7 @@ double Blowfish::series(uint32_t d, uint32_t j) {
     }
 
     for (int k = d; k < d + 100; k++) {
-        sum += pow(16.0, d - k) / (8 * k + j);
+        sum += pow(16.0, (double) d - k) / (8 * k + j);
         sum = sum - (int)sum;
     }
 
