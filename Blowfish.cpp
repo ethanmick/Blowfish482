@@ -15,11 +15,12 @@ Blowfish::Blowfish() {
 }
 
 int Blowfish::blockSize(){
-    return 0;
+    return 8;
 }
 
 int Blowfish::keySize(){
-    return 0;
+    //56 is the maximum, this is variable
+    return 56;
 }
 
 void Blowfish::setKey(unsigned char* key){
