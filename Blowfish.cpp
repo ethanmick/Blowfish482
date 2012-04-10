@@ -45,18 +45,29 @@ void Blowfish::setKey(uint8_t* key){
     for (int i=0; i < 256; i++) {
     	s3[i] = computeHexPi();
     }
-    
+   
     for (int i=0; i < 256; i++) {
     	s4[i] = computeHexPi();
     }
 
     uint32_t key_size = keySize();
-    
-    uint32_t subkey = 0;
-    for (int i=0; i < 4; i++) {
-    	subkey <<= 8;
-    	subkey |= (uint32_t)key[i];
-    }
+   
+    uint32_t subkeyCounter = 0; 
+    for (int pI=0; pI < 18; pI++) {
+        
+        cout << "pI: " << pI << ": ";
+        uint32_t subkey = 0; 
+
+        for (int i=0; i < 4; i++, subkeyCounter++) {
+            if (subkeyCounter >= key_size) {
+                subkeyCounter = 0;
+            }
+    	    subkey <<= 8;
+            subkey |= (uint32_t)key[subkeyCounter];
+        }
+
+    	pArray[pI] ^= subkey;
+    } 
 
 }
 
