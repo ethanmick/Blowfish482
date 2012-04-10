@@ -55,7 +55,6 @@ void Blowfish::setKey(uint8_t* key){
     uint32_t subkeyCounter = 0; 
     for (int pI=0; pI < 18; pI++) {
         
-        cout << "pI: " << pI << ": ";
         uint32_t subkey = 0; 
 
         for (int i=0; i < 4; i++, subkeyCounter++) {
@@ -68,12 +67,42 @@ void Blowfish::setKey(uint8_t* key){
 
     	pArray[pI] ^= subkey;
     } 
+    
+    uint8_t* zeros = (uint8_t*)"0000";
+    for (int i=0; i < 18; i += 2) {
+        encrypt(zeros);
+        pArray[i] = pack32BitWord(zeros, 0);
+        pArray[i+1] = pack32BitWord(zeros, 4);
+    }
+
+    for (int i=0; i < 256; i += 2) {
+        encrypt(zeros);
+        s1[i] = pack32BitWord(zeros, 0);
+        s1[i+1] = pack32BitWord(zeros, 4);
+    } 
+
+    for (int i=0; i < 256; i += 2) {
+        encrypt(zeros);
+        s2[i] = pack32BitWord(zeros, 0);
+        s2[i+1] = pack32BitWord(zeros, 4);
+    } 
+
+    for (int i=0; i < 256; i += 2) {
+        encrypt(zeros);
+        s3[i] = pack32BitWord(zeros, 0);
+        s3[i+1] = pack32BitWord(zeros, 4);
+    } 
+
+    for (int i=0; i < 256; i += 2) {
+        encrypt(zeros);
+        s4[i] = pack32BitWord(zeros, 0);
+        s4[i+1] = pack32BitWord(zeros, 4);
+    } 
 
 }
 
 void Blowfish::encrypt(uint8_t* text){
         
-    cout << "text: " << text << endl;
     uint8_t xLChar[ blockSize()/2 + 1 ];
     uint8_t xRChar[ blockSize()/2 + 1 ];
     memcpy( &xLChar, text, blockSize()/2 );
@@ -82,8 +111,8 @@ void Blowfish::encrypt(uint8_t* text){
     xRChar[ blockSize()/2 ] = '\0';
 
     uint32_t xL, xR, temp;
-    xL = charArrayToInt( xLChar );
-    xR = charArrayToInt( xRChar );
+    xL = pack32BitWord( xLChar, 0 );
+    xR = pack32BitWord( xRChar, 0 );
     
     for( int i = 1; i <= 16; i++ ){
         xL ^= pArray[ i ];
@@ -107,8 +136,7 @@ void Blowfish::encrypt(uint8_t* text){
     
     //now xL is the ciphertext
     
-    cout << xL;
-    
+    cout << xL << endl;
     
 }
 
@@ -132,10 +160,10 @@ uint32_t Blowfish::F( uint32_t input ){
     
 }
 
-uint32_t Blowfish::charArrayToInt( uint8_t* input ){
+uint32_t Blowfish::pack32BitWord( uint8_t* input, uint32_t startVal ){
     if( strlen( ( char * ) input ) == 4 ){
         uint32_t result = 0;
-        for( int i = 0; i < 4; i++ ){
+        for( int i = startVal; i < startVal + 4; i++ ){
             result = result << 8;
             result += input[ i ];
 

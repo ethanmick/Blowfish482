@@ -61,8 +61,9 @@ private:
     /// Computes an integer based on a given char*
     ///
     /// @param input    The char array to convert
+    /// @param startVal Where to start to pack the values
     /// @return An unsigned int representing this char array
-    uint32_t charArrayToInt( uint8_t* input );
+    uint32_t pack32BitWord( uint8_t* input, uint32_t startVal );
     
     
     ///
