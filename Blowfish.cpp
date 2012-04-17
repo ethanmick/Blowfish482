@@ -131,13 +131,20 @@ void Blowfish::encrypt(uint8_t* text){
     xL ^= pArray[ 17 ];
     
     //merge into xR and xL into xL
-    xL = xL << 16;
-    xL += xR;
+    uint64_t final = 0;
+    final += xL;
+    final = final << 32;
+    final += xR;
+    //now final is the ciphertext, need to convert to ascii
     
-    //now xL is the ciphertext
     
-    cout << xL << endl;
+    uint8_t* returnChar = new uint8_t[ blockSize() + 1 ];
     
+    for( int i = 0; i < blockSize(); i++ ){
+        returnChar[ i ] = final >> ( 8 * ( blockSize() - 1 - i ) );
+    }
+    
+    text = returnChar;
 }
 
 uint32_t Blowfish::F( uint32_t input ){
@@ -151,10 +158,6 @@ uint32_t Blowfish::F( uint32_t input ){
     input >> 8;
     a = (uint8_t) input;
     
-    //The s boxes really accept 8 bit input, and produce 32 bit output... i think.
-    //We gotta do this...
-    //find s1,a s2,b s3,c s4,d
-
     return ( ( s1[ a ] + s2[ b ] ) ^ s3[ c ] ) + s4[ d ];
     
     
@@ -166,7 +169,6 @@ uint32_t Blowfish::pack32BitWord( uint8_t* input, uint32_t startVal ){
         for( int i = startVal; i < startVal + 4; i++ ){
             result = result << 8;
             result += input[ i ];
-
         }
         return result;
     }else{
