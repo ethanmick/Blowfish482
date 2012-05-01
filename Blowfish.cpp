@@ -8,10 +8,13 @@ using namespace std;
 int main( int argc, char* argv[] ){
     Blowfish b;
 
+	cout << "Setting Key: 0123456789abcdef" << endl;
     b.setKey( ( uint8_t * ) "0123456789abcdef" );
     
-    
-    b.encrypt( (uint8_t * ) "01234567" );
+	cout << "Encrypting: 01234567" << endl;
+	uint8_t *text = (uint8_t * ) "01234567";
+    b.encrypt( text );
+	cout << "Encrypted: "<< text << endl;
 }
 
 Blowfish::Blowfish() {
