@@ -73,7 +73,7 @@ void Blowfish::setKey(uint8_t* key){
     
     uint8_t* zeros = (uint8_t*)"0000";
     for (int i=0; i < 18; i += 2) {
-        encrypt(zeros);
+        cout << zeros << endl;
         pArray[i] = pack32BitWord(zeros, 0);
         pArray[i+1] = pack32BitWord(zeros, 4);
     }
@@ -146,7 +146,7 @@ void Blowfish::encrypt(uint8_t* text){
     for( int i = 0; i < blockSize(); i++ ){
         returnChar[ i ] = final >> ( 8 * ( blockSize() - 1 - i ) );
     }
-    
+    cout << "R: " << returnChar << endl;    
     text = returnChar;
 }
 
