@@ -11,8 +11,8 @@ int main( int argc, char* argv[] ){
 	cout << "Setting Key: 0123456789abcdef" << endl;
     b.setKey( ( uint8_t * ) "0123456789abcdef" );
     
-	cout << "Encrypting: 01234567" << endl;
-	uint8_t *text = (uint8_t * ) "01234567";
+    uint8_t text[ 9 ] = "01234567";
+	cout << "Encrypting: " << text << endl;
     b.encrypt( text );
 	cout << "Encrypted: "<< text << endl;
 }
@@ -71,7 +71,7 @@ void Blowfish::setKey(uint8_t* key){
     	pArray[pI] ^= subkey;
     } 
     
-    uint8_t* zeros = (uint8_t*)"0000";
+    uint8_t* zeros = (uint8_t*)"00000000";
     for (int i=0; i < 18; i += 2) {
         cout << zeros << endl;
         pArray[i] = pack32BitWord(zeros, 0);
@@ -105,17 +105,17 @@ void Blowfish::setKey(uint8_t* key){
 }
 
 void Blowfish::encrypt(uint8_t* text){
-        
-    uint8_t xLChar[ blockSize()/2 + 1 ];
-    uint8_t xRChar[ blockSize()/2 + 1 ];
-    memcpy( &xLChar, text, blockSize()/2 );
-    xLChar[ blockSize()/2 ] = '\0';
-    memcpy( &xRChar, text + blockSize()/2, blockSize()/2 );
-    xRChar[ blockSize()/2 ] = '\0';
-
+    
+    cout << "text: " << text << endl;
+    
     uint32_t xL, xR, temp;
-    xL = pack32BitWord( xLChar, 0 );
-    xR = pack32BitWord( xRChar, 0 );
+    xL = pack32BitWord( text, 0 );
+    xR = pack32BitWord( text, 4 );
+    
+    cout << "xL: " << xL << endl;
+    cout << "xR: " << xR << endl;
+    
+    
     
     for( int i = 1; i <= 16; i++ ){
         xL ^= pArray[ i ];
@@ -146,7 +146,8 @@ void Blowfish::encrypt(uint8_t* text){
     for( int i = 0; i < blockSize(); i++ ){
         returnChar[ i ] = final >> ( 8 * ( blockSize() - 1 - i ) );
     }
-    cout << "R: " << returnChar << endl;    
+    cout << "R: " << returnChar << endl;
+    cout << "text: " << text << endl;
     text = returnChar;
 }
 
@@ -167,11 +168,11 @@ uint32_t Blowfish::F( uint32_t input ){
 }
 
 uint32_t Blowfish::pack32BitWord( uint8_t* input, uint32_t startVal ){
-    if( strlen( ( char * ) input ) == 4 ){
+    if( strlen( ( char * ) input ) == 8 ){
         uint32_t result = 0;
         for( int i = startVal; i < startVal + 4; i++ ){
-            result = result << 8;
-            result += input[ i ];
+            result <<= 8;
+            result |= input[ i ];
         }
         return result;
     }else{

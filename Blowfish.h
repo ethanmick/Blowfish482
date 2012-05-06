@@ -55,8 +55,6 @@ private:
 	///
 	double binaryExp(int b, int n, double mod);
     
-    
-    
     ///
     /// Computes an integer based on a given char*
     ///
