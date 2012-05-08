@@ -8,13 +8,24 @@ using namespace std;
 int main( int argc, char* argv[] ){
     Blowfish b;
 
-	cout << "Setting Key: 0123456789abcdef" << endl;
-    b.setKey( ( uint8_t * ) "0123456789abcdef" );
+    uint8_t* key = new uint8_t[ b.keySize() ];
     
-    uint8_t text[ 9 ] = "01234567";
-	cout << "Encrypting: " << text << endl;
+    for( unsigned int i = 0; i < b.keySize(); i++ ){
+        key[ i ] = i;
+    }
+    
+	cout << "Key: " << hex << key << endl;
+    b.setKey( key );
+    
+    
+    uint8_t* text = new uint8_t[ b.blockSize() ];
+    for( unsigned int i = 0; i < b.blockSize(); i++ ){
+        text[ i ] = i;
+    }
+
+	cout << "Plaintext: " << text << endl;
     b.encrypt( text );
-	cout << "Encrypted: "<< text << endl;
+	cout << "Ciphertext: "<< text << endl;
 }
 
 Blowfish::Blowfish() {
@@ -70,10 +81,14 @@ void Blowfish::setKey(uint8_t* key){
 
     	pArray[pI] ^= subkey;
     } 
-    
-    uint8_t* zeros = (uint8_t*)"00000000";
+        
+    uint8_t* zeros = new uint8_t[ 8 ];
+    for( int i = 0; i < 8; i++ ){
+        zeros[ i ] = 0;
+    }
+        
     for (int i=0; i < 18; i += 2) {
-        cout << zeros << endl;
+        encrypt(zeros);
         pArray[i] = pack32BitWord(zeros, 0);
         pArray[i+1] = pack32BitWord(zeros, 4);
     }
@@ -106,18 +121,12 @@ void Blowfish::setKey(uint8_t* key){
 
 void Blowfish::encrypt(uint8_t* text){
     
-    cout << "text: " << text << endl;
-    
     uint32_t xL, xR, temp;
     xL = pack32BitWord( text, 0 );
     xR = pack32BitWord( text, 4 );
-    
-    cout << "xL: " << xL << endl;
-    cout << "xR: " << xR << endl;
-    
-    
-    
-    for( int i = 1; i <= 16; i++ ){
+        
+    for( int i = 0; i <= 15; i++ ){
+        
         xL ^= pArray[ i ];
         xR ^= F( xL );
         
@@ -135,42 +144,41 @@ void Blowfish::encrypt(uint8_t* text){
     
     //merge into xR and xL into xL
     uint64_t final = 0;
-    final += xL;
-    final = final << 32;
-    final += xR;
+    final |= xL;
+    final <<= 32;
+    final |= xR;
     //now final is the ciphertext, need to convert to ascii
     
+    text[ 0 ] = final >> 56;
+    text[ 1 ] = final >> 48;
+    text[ 2 ] = final >> 40;
+    text[ 3 ] = final >> 32;
+    text[ 4 ] = final >> 24;
+    text[ 5 ] = final >> 16;
+    text[ 6 ] = final >> 8;
+    text[ 7 ] = final;
     
-    uint8_t* returnChar = new uint8_t[ blockSize() + 1 ];
-    
-    for( int i = 0; i < blockSize(); i++ ){
-        returnChar[ i ] = final >> ( 8 * ( blockSize() - 1 - i ) );
-    }
-    cout << "R: " << returnChar << endl;
-    cout << "text: " << text << endl;
-    text = returnChar;
 }
 
 uint32_t Blowfish::F( uint32_t input ){
     uint8_t a, b, c, d;
-    
+        
     d = (uint8_t) input;
-    input >> 8;
+    input >>= 8;
     c = (uint8_t) input;
-    input >> 8;
+    input >>= 8;
     b = (uint8_t) input;
-    input >> 8;
+    input >>= 8;
     a = (uint8_t) input;
     
     return ( ( s1[ a ] + s2[ b ] ) ^ s3[ c ] ) + s4[ d ];
-    
     
 }
 
 uint32_t Blowfish::pack32BitWord( uint8_t* input, uint32_t startVal ){
     if( strlen( ( char * ) input ) == 8 ){
         uint32_t result = 0;
-        for( int i = startVal; i < startVal + 4; i++ ){
+        for( unsigned int i = startVal; i < startVal + 4; i++ ){
             result <<= 8;
             result |= input[ i ];
         }
@@ -209,12 +217,12 @@ uint32_t Blowfish::computeHexPi() {
 double Blowfish::series(uint32_t d, uint32_t j) {
 
     double sum = 0;
-    for (int k=0; k < d; k++) {
+    for ( unsigned int k = 0; k < d; k++ ) {
         sum += (binaryExp(16, (d - k), (8 * k + j))) / (8 * k + j);
         sum = sum - (int)sum;
     }
 
-    for (int k = d; k < d + 100; k++) {
+    for ( unsigned int k = d; k < d + 100; k++ ) {
         sum += pow(16.0, (double) d - k) / (8 * k + j);
         sum = sum - (int)sum;
     }
