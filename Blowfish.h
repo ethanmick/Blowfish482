@@ -1,7 +1,6 @@
 #ifndef BLOWFISH_H
 #define BLOWFISH_H
 #include "BlockCipher.h"
-#include "Pi.h"
 
 class Blowfish : public BlockCipher {
     
@@ -21,7 +20,6 @@ private:
 
     /// The starting location for generating the hex values
     int hexStart;
-    HexPi hexPi;
 
     uint32_t s1[256], s2[256], s3[256], s4[256];
     uint32_t pArray[ 18 ];
