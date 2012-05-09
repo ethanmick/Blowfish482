@@ -69,23 +69,23 @@ uint32_t Blowfish::keySize(){
 void Blowfish::setKey(uint8_t* key){
     
     for (int i = 0; i < 18; i++) {
-        pArray[i] = computeHexPi();
+        pArray[i] = hexPi.Pi[hexStart++];
     }
     
     for (int i=0; i < 256; i++) {
-    	s1[i] = computeHexPi();
+    	s1[i] = hexPi.Pi[hexStart++];
     }
     
     for (int i=0; i < 256; i++) {
-    	s2[i] = computeHexPi();
+    	s2[i] = hexPi.Pi[hexStart++];
     }
     
     for (int i=0; i < 256; i++) {
-    	s3[i] = computeHexPi();
+    	s3[i] = hexPi.Pi[hexStart++];
     }
    
     for (int i=0; i < 256; i++) {
-    	s4[i] = computeHexPi();
+    	s4[i] = hexPi.Pi[hexStart++];
     }
 
     uint32_t key_size = keySize();
@@ -207,72 +207,3 @@ uint32_t Blowfish::pack32BitWord( uint8_t* input, uint32_t startVal ){
     }
     return result; 
 }
-
-uint32_t Blowfish::computeHexPi() {
-
-    double s1 = series(hexStart, 1);
-    double s2 = series(hexStart, 4);
-    double s3 = series(hexStart, 5);
-    double s4 = series(hexStart, 6);
-
-    double pi = (4.0 * s1) - (2.0 * s2) - s3 - s4;
-    pi = pi - (int)pi + 1.0;
-
-    uint32_t pihex= 0;
-
-    for (int i=0; i < 8; i++) {
-    	pi *= 16;
-    	uint32_t hVal = floor(pi);
-    	pihex <<= 4;
-    	pihex |= hVal;
-    	pi -= hVal;
-    }
-
-    hexStart += 8;
-
-    return pihex;
-
-}
-
-double Blowfish::series(uint32_t d, uint32_t j) {
-
-    double sum = 0;
-    for ( unsigned int k = 0; k < d; k++ ) {
-        sum += (binaryExp(16, (d - k), (8 * k + j))) / (8 * k + j);
-        sum = sum - (int)sum;
-    }
-
-    for ( unsigned int k = d; k < d + 100; k++ ) {
-        sum += pow(16.0, (double) d - k) / (8 * k + j);
-        sum = sum - (int)sum;
-    }
-
-    return sum;
-}
-
-double Blowfish::binaryExp(int b, int n, double mod) {
-
-    if (mod == 1.0) {
-        return 0;
-    }
-    
-    // Largest power of 2 less than n
-    double t = pow(2, floor(log2(n)));
-
-    double r = 1;
-    while (t >= 1) {
-        if (n >= t) {
-            r = fmod(b * r, mod);
-            n = n - t;
-        }
-        
-        t = t / 2;
-
-        if (t >= 1) {
-            r = fmod(r * r, mod);
-        }
-    }
-
-    return r;
-}
-
