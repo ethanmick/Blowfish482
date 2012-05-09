@@ -2,6 +2,8 @@
 /// Repesents the necessary 8336 Hexadecminal Digits of Pi
 ///
 
+#include <stdint.h>
+
 class HexPi {
 	public:
 		uint32_t Pi[1042];

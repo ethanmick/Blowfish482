@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// Prints a uint8_t array to stdout as a hex string, endline is printed at the end
 void print_uint8_hex(uint8_t* buffer, uint32_t size, const char* label) {
     cout << label << hex;
     for ( unsigned int i = 0; i < size; i++ ) {
@@ -19,7 +20,7 @@ int main( int argc, char* argv[] ){
     uint8_t* key = new uint8_t[ b.keySize() ];
     
     for( unsigned int i = 0; i < b.keySize(); i++ ){
-        key[ i ] = 0;
+        key[ i ] = 0xFF;
     }
     
     print_uint8_hex(key, b.keySize(), "Key: ");
@@ -28,12 +29,14 @@ int main( int argc, char* argv[] ){
     
     uint8_t* long_text = new uint8_t[ b.blockSize() * 2 ];
     for( unsigned int i = 0; i < ( b.blockSize() * 2 ); i++ ){
-        long_text[ i ] = 0;
+        long_text[ i ] = 0xFF;
     }
 
     print_uint8_hex(long_text, b.blockSize() * 2, "Plaintext: ");
 
-   
+    // All test vectors are actually 16 bytes long, so double the block size   
+    // This breaks it down into the appropriate block size, may not be the best
+    // way, but it gets the job down
     for ( unsigned int l = 0; l < ( b.blockSize() * 2 ); l += b.blockSize()) {
         uint8_t* text = new uint8_t[ b.blockSize() ];
         for ( unsigned int i = 0; i < b.blockSize(); i++ ) {
@@ -52,7 +55,6 @@ int main( int argc, char* argv[] ){
 
 Blowfish::Blowfish() {
     hexStart = 0;
-
 }
 
 uint32_t Blowfish::blockSize(){
@@ -198,16 +200,12 @@ uint32_t Blowfish::F( uint32_t input ){
 }
 
 uint32_t Blowfish::pack32BitWord( uint8_t* input, uint32_t startVal ){
-    if( strlen( ( char * ) input ) == 8 ){
-        uint32_t result = 0;
-        for( unsigned int i = startVal; i < startVal + 4; i++ ){
-            result <<= 8;
-            result |= input[ i ];
-        }
-        return result;
-    }else{
-        return 0;
+    uint32_t result = 0;
+    for( unsigned int i = startVal; i < startVal + 4; i++ ){
+        result <<= 8;
+        result |= input[ i ];
     }
+    return result; 
 }
 
 uint32_t Blowfish::computeHexPi() {
@@ -223,11 +221,11 @@ uint32_t Blowfish::computeHexPi() {
     uint32_t pihex= 0;
 
     for (int i=0; i < 8; i++) {
-	pi *= 16;
-	uint32_t hVal = floor(pi);
-	pihex <<= 4;
-	pihex |= hVal;
-	pi -= hVal;
+    	pi *= 16;
+    	uint32_t hVal = floor(pi);
+    	pihex <<= 4;
+    	pihex |= hVal;
+    	pi -= hVal;
     }
 
     hexStart += 8;
