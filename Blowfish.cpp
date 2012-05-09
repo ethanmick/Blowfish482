@@ -5,27 +5,49 @@
 
 using namespace std;
 
+void print_uint8_hex(uint8_t* buffer, uint32_t size, const char* label) {
+    cout << label << hex;
+    for ( unsigned int i = 0; i < size; i++ ) {
+         cout << (uint32_t) buffer[ i ] << " ";
+    }
+    cout << dec << endl;
+}
+
 int main( int argc, char* argv[] ){
     Blowfish b;
 
     uint8_t* key = new uint8_t[ b.keySize() ];
     
     for( unsigned int i = 0; i < b.keySize(); i++ ){
-        key[ i ] = i;
+        key[ i ] = 0;
     }
     
-	cout << "Key: " << hex << key << endl;
+    print_uint8_hex(key, b.keySize(), "Key: ");
     b.setKey( key );
     
     
-    uint8_t* text = new uint8_t[ b.blockSize() ];
-    for( unsigned int i = 0; i < b.blockSize(); i++ ){
-        text[ i ] = i;
+    uint8_t* long_text = new uint8_t[ b.blockSize() * 2 ];
+    for( unsigned int i = 0; i < ( b.blockSize() * 2 ); i++ ){
+        long_text[ i ] = 0;
     }
 
-	cout << "Plaintext: " << text << endl;
-    b.encrypt( text );
-	cout << "Ciphertext: "<< text << endl;
+    print_uint8_hex(long_text, b.blockSize() * 2, "Plaintext: ");
+
+   
+    for ( unsigned int l = 0; l < ( b.blockSize() * 2 ); l += b.blockSize()) {
+        uint8_t* text = new uint8_t[ b.blockSize() ];
+        for ( unsigned int i = 0; i < b.blockSize(); i++ ) {
+            text[ i ] = long_text[ l + i ];
+        }
+
+        b.encrypt( text );
+
+        for ( unsigned int i = 0; i < b.blockSize(); i++ ) {
+            long_text[ l + i ] = text[ i ];
+        }
+    }
+
+    print_uint8_hex(long_text, b.blockSize() * 2, "Ciphertext: ");
 }
 
 Blowfish::Blowfish() {
