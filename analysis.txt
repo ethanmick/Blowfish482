@@ -1,0 +1,247 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls   s/call   s/call  name    
+ 84.75      4.08     4.08 17355552     0.00     0.00  Blowfish::binaryExp(int, int, double)
+ 12.08      4.66     0.58     4168     0.00     0.00  Blowfish::series(unsigned int, unsigned int)
+  3.02      4.80     0.15 17354511     0.00     0.00  __gnu_cxx::__promote_2<__gnu_cxx::__enable_if<(std::__is_arithmetic<int>::__value)&&(std::__is_arithmetic<double>::__value), int>::__type, double>::__type std::pow<int, double>(int, double)
+  0.31      4.82     0.02        1     0.02     0.02  BlockCipher::BlockCipher()
+  0.00      4.82     0.00     8368     0.00     0.00  Blowfish::F(unsigned int)
+  0.00      4.82     0.00     2088     0.00     0.00  Blowfish::pack32BitWord(unsigned char*, unsigned int)
+  0.00      4.82     0.00     1042     0.00     0.00  Blowfish::computeHexPi()
+  0.00      4.82     0.00      523     0.00     0.00  Blowfish::encrypt(unsigned char*)
+  0.00      4.82     0.00       63     0.00     0.00  Blowfish::blockSize()
+  0.00      4.82     0.00       20     0.00     0.00  Blowfish::keySize()
+  0.00      4.82     0.00       12     0.00     0.00  std::operator&(std::_Ios_Fmtflags, std::_Ios_Fmtflags)
+  0.00      4.82     0.00        6     0.00     0.00  std::ios_base::setf(std::_Ios_Fmtflags, std::_Ios_Fmtflags)
+  0.00      4.82     0.00        6     0.00     0.00  std::operator&=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags)
+  0.00      4.82     0.00        6     0.00     0.00  std::operator~(std::_Ios_Fmtflags)
+  0.00      4.82     0.00        6     0.00     0.00  std::operator|=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags)
+  0.00      4.82     0.00        6     0.00     0.00  std::operator|(std::_Ios_Fmtflags, std::_Ios_Fmtflags)
+  0.00      4.82     0.00        3     0.00     0.00  print_uint8_hex(unsigned char*, unsigned int, char const*)
+  0.00      4.82     0.00        1     0.00     0.00  global constructors keyed to print_uint8_hex(unsigned char*, unsigned int, char const*)
+  0.00      4.82     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00      4.82     0.00        1     0.00     4.80  Blowfish::setKey(unsigned char*)
+  0.00      4.82     0.00        1     0.00     0.02  Blowfish::Blowfish()
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+ 
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this 
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 2 byte(s) for 0.21% of 4.82 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]    100.0    0.00    4.82                 main [1]
+                0.00    4.80       1/1           Blowfish::setKey(unsigned char*) [4]
+                0.00    0.02       1/1           Blowfish::Blowfish() [8]
+                0.00    0.00      63/63          Blowfish::blockSize() [16]
+                0.00    0.00      19/20          Blowfish::keySize() [17]
+                0.00    0.00       3/3           print_uint8_hex(unsigned char*, unsigned int, char const*) [24]
+                0.00    0.00       2/523         Blowfish::encrypt(unsigned char*) [15]
+-----------------------------------------------
+                0.58    4.22    4168/4168        Blowfish::computeHexPi() [3]
+[2]     99.7    0.58    4.22    4168         Blowfish::series(unsigned int, unsigned int) [2]
+                4.08    0.15 17355552/17355552     Blowfish::binaryExp(int, int, double) [5]
+-----------------------------------------------
+                0.00    4.80    1042/1042        Blowfish::setKey(unsigned char*) [4]
+[3]     99.7    0.00    4.80    1042         Blowfish::computeHexPi() [3]
+                0.58    4.22    4168/4168        Blowfish::series(unsigned int, unsigned int) [2]
+-----------------------------------------------
+                0.00    4.80       1/1           main [1]
+[4]     99.7    0.00    4.80       1         Blowfish::setKey(unsigned char*) [4]
+                0.00    4.80    1042/1042        Blowfish::computeHexPi() [3]
+                0.00    0.00    1042/2088        Blowfish::pack32BitWord(unsigned char*, unsigned int) [14]
+                0.00    0.00     521/523         Blowfish::encrypt(unsigned char*) [15]
+                0.00    0.00       1/20          Blowfish::keySize() [17]
+-----------------------------------------------
+                4.08    0.15 17355552/17355552     Blowfish::series(unsigned int, unsigned int) [2]
+[5]     87.6    4.08    0.15 17355552         Blowfish::binaryExp(int, int, double) [5]
+                0.15    0.00 17354511/17354511     __gnu_cxx::__promote_2<__gnu_cxx::__enable_if<(std::__is_arithmetic<int>::__value)&&(std::__is_arithmetic<double>::__value), int>::__type, double>::__type std::pow<int, double>(int, double) [6]
+-----------------------------------------------
+                0.15    0.00 17354511/17354511     Blowfish::binaryExp(int, int, double) [5]
+[6]      3.0    0.15    0.00 17354511         __gnu_cxx::__promote_2<__gnu_cxx::__enable_if<(std::__is_arithmetic<int>::__value)&&(std::__is_arithmetic<double>::__value), int>::__type, double>::__type std::pow<int, double>(int, double) [6]
+-----------------------------------------------
+                0.02    0.00       1/1           Blowfish::Blowfish() [8]
+[7]      0.3    0.02    0.00       1         BlockCipher::BlockCipher() [7]
+-----------------------------------------------
+                0.00    0.02       1/1           main [1]
+[8]      0.3    0.00    0.02       1         Blowfish::Blowfish() [8]
+                0.02    0.00       1/1           BlockCipher::BlockCipher() [7]
+-----------------------------------------------
+                0.00    0.00    8368/8368        Blowfish::encrypt(unsigned char*) [15]
+[13]     0.0    0.00    0.00    8368         Blowfish::F(unsigned int) [13]
+-----------------------------------------------
+                0.00    0.00    1042/2088        Blowfish::setKey(unsigned char*) [4]
+                0.00    0.00    1046/2088        Blowfish::encrypt(unsigned char*) [15]
+[14]     0.0    0.00    0.00    2088         Blowfish::pack32BitWord(unsigned char*, unsigned int) [14]
+-----------------------------------------------
+                0.00    0.00       2/523         main [1]
+                0.00    0.00     521/523         Blowfish::setKey(unsigned char*) [4]
+[15]     0.0    0.00    0.00     523         Blowfish::encrypt(unsigned char*) [15]
+                0.00    0.00    8368/8368        Blowfish::F(unsigned int) [13]
+                0.00    0.00    1046/2088        Blowfish::pack32BitWord(unsigned char*, unsigned int) [14]
+-----------------------------------------------
+                0.00    0.00      63/63          main [1]
+[16]     0.0    0.00    0.00      63         Blowfish::blockSize() [16]
+-----------------------------------------------
+                0.00    0.00       1/20          Blowfish::setKey(unsigned char*) [4]
+                0.00    0.00      19/20          main [1]
+[17]     0.0    0.00    0.00      20         Blowfish::keySize() [17]
+-----------------------------------------------
+                0.00    0.00       6/12          std::operator&=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags) [20]
+                0.00    0.00       6/12          std::ios_base::setf(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [19]
+[18]     0.0    0.00    0.00      12         std::operator&(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [18]
+-----------------------------------------------
+                0.00    0.00       3/6           std::dec(std::ios_base&) [27]
+                0.00    0.00       3/6           std::hex(std::ios_base&) [28]
+[19]     0.0    0.00    0.00       6         std::ios_base::setf(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [19]
+                0.00    0.00       6/6           std::operator~(std::_Ios_Fmtflags) [21]
+                0.00    0.00       6/6           std::operator&=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags) [20]
+                0.00    0.00       6/12          std::operator&(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [18]
+                0.00    0.00       6/6           std::operator|=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags) [22]
+-----------------------------------------------
+                0.00    0.00       6/6           std::ios_base::setf(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [19]
+[20]     0.0    0.00    0.00       6         std::operator&=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags) [20]
+                0.00    0.00       6/12          std::operator&(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [18]
+-----------------------------------------------
+                0.00    0.00       6/6           std::ios_base::setf(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [19]
+[21]     0.0    0.00    0.00       6         std::operator~(std::_Ios_Fmtflags) [21]
+-----------------------------------------------
+                0.00    0.00       6/6           std::ios_base::setf(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [19]
+[22]     0.0    0.00    0.00       6         std::operator|=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags) [22]
+                0.00    0.00       6/6           std::operator|(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [23]
+-----------------------------------------------
+                0.00    0.00       6/6           std::operator|=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags) [22]
+[23]     0.0    0.00    0.00       6         std::operator|(std::_Ios_Fmtflags, std::_Ios_Fmtflags) [23]
+-----------------------------------------------
+                0.00    0.00       3/3           main [1]
+[24]     0.0    0.00    0.00       3         print_uint8_hex(unsigned char*, unsigned int, char const*) [24]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [29]
+[25]     0.0    0.00    0.00       1         global constructors keyed to print_uint8_hex(unsigned char*, unsigned int, char const*) [25]
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [26]
+-----------------------------------------------
+                0.00    0.00       1/1           global constructors keyed to print_uint8_hex(unsigned char*, unsigned int, char const*) [25]
+[26]     0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [26]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+
+Index by function name
+
+  [25] global constructors keyed to print_uint8_hex(unsigned char*, unsigned int, char const*) (Blowfish.cpp) [2] Blowfish::series(unsigned int, unsigned int) [19] std::ios_base::setf(std::_Ios_Fmtflags, std::_Ios_Fmtflags)
+  [24] print_uint8_hex(unsigned char*, unsigned int, char const*) [4] Blowfish::setKey(unsigned char*) [6] __gnu_cxx::__promote_2<__gnu_cxx::__enable_if<(std::__is_arithmetic<int>::__value)&&(std::__is_arithmetic<double>::__value), int>::__type, double>::__type std::pow<int, double>(int, double)
+  [26] __static_initialization_and_destruction_0(int, int) (Blowfish.cpp) [15] Blowfish::encrypt(unsigned char*) [20] std::operator&=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags)
+   [7] BlockCipher::BlockCipher() [17] Blowfish::keySize() [18] std::operator&(std::_Ios_Fmtflags, std::_Ios_Fmtflags)
+   [3] Blowfish::computeHexPi() [5] Blowfish::binaryExp(int, int, double) [21] std::operator~(std::_Ios_Fmtflags)
+  [14] Blowfish::pack32BitWord(unsigned char*, unsigned int) [16] Blowfish::blockSize() [22] std::operator|=(std::_Ios_Fmtflags&, std::_Ios_Fmtflags)
+  [13] Blowfish::F(unsigned int) [8] Blowfish::Blowfish() [23] std::operator|(std::_Ios_Fmtflags, std::_Ios_Fmtflags)
