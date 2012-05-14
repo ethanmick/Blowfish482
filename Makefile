@@ -59,7 +59,7 @@ OBJFILES =	Tester.cpp
 # Main targets
 #
 
-all:	Blowfish 
+all:	Blowfish Profile Crypter
 
 Blowfish:	Blowfish.o $(OBJFILES)
 	$(CXX) $(CXXFLAGS) -o Blowfish Blowfish.o $(OBJFILES) $(CCLIBFLAGS)
