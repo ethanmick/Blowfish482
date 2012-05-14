@@ -39,12 +39,12 @@ int main( int argc, char* argv[] ){
         key[ i ] = 0x00;
     }
     
+    time_t start = time(NULL) * 1000;
     print_uint8_hex(key, b.keySize(), "Key: ");
     b.setKey( key );
 
 
     uint8_t* text;// = new uint8_t[ b.blockSize() ];
-    time_t start = time(NULL) * 1000;
     for (unsigned int i = 0; i < numIter; i++) {
         text = new uint8_t[ b.blockSize() ];
     
