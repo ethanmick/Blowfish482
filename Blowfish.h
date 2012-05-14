@@ -24,7 +24,32 @@ private:
     HexPi hexPi;
 
     uint32_t s1[256], s2[256], s3[256], s4[256];
-    uint32_t pArray[ 18 ];
+//    uint32_t pArray[ 18 ];
+    
+    uint32_t pArray0;
+    uint32_t pArray1;
+    uint32_t pArray2;
+    uint32_t pArray3;
+
+    uint32_t pArray4;
+    uint32_t pArray5;
+    uint32_t pArray6;
+    uint32_t pArray7;
+
+    uint32_t pArray8;
+    uint32_t pArray9;
+    uint32_t pArray10;
+    uint32_t pArray11;
+
+    uint32_t pArray12;
+    uint32_t pArray13;
+    uint32_t pArray14;
+    uint32_t pArray15;
+
+    uint32_t pArray16;
+    uint32_t pArray17;
+
+    
     
     ///
     /// Computes an integer based on a given char*

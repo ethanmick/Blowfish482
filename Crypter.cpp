@@ -62,8 +62,6 @@ int main( int argc, char* argv[] ){
         fseek(input, i, SEEK_SET);
         size_t readin = fread(text, b.blockSize(), 1, input); 
 
-        long s = ftell(input);
-
         size_t delta = b.blockSize() - readin; 
         if (delta != 0) {
             for (unsigned int j = readin; j < b.blockSize(); j++) {
