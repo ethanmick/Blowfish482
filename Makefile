@@ -53,17 +53,22 @@ S_FILES =
 H_FILES =	BlockCipher.h Blowfish.h
 SOURCEFILES =	$(H_FILES) $(CPP_FILES) $(C_FILES) $(S_FILES)
 .PRECIOUS:	$(SOURCEFILES)
-OBJFILES =	
+OBJFILES =	Tester.cpp
 
 #
 # Main targets
 #
 
-all:	Blowfish 
+all:	Blowfish Profile Crypter
 
 Blowfish:	Blowfish.o $(OBJFILES)
 	$(CXX) $(CXXFLAGS) -o Blowfish Blowfish.o $(OBJFILES) $(CCLIBFLAGS)
 
+Profile:	Blowfish.o Profile.o
+	$(CXX) $(CXXFLAGS) -o Profile Blowfish.o Profile.o $(CCLIBFLAGS)
+
+Crypter:	Blowfish.o Crypter.o
+	$(CXX) $(CXXFLAGS) -o Crypter Blowfish.o Crypter.o $(CCLIBFLAGS)
 #
 # Dependencies
 #
